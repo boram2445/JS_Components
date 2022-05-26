@@ -5,7 +5,7 @@ const lapBtn = document.querySelector('.btn-lap');
 const startBtn = document.querySelector('.btn-start');
 const stopBtn = document.querySelector('.btn-stop');
 const lists = document.querySelector('.lists');
-let hour = 0, min = 0, sec = 0; 
+let min = 0, sec = 0, centi = 0; 
 let order = 0; 
 let intervalId;
 
@@ -13,7 +13,7 @@ let intervalId;
 startBtn.addEventListener('click', ()=>{
   //1-1. 100ms단위로 타이머 동작함수 호출
   clearInterval(intervalId); //의도치 않게 두번 이상 누르는 경우, 동작이 겹칠 수 있기때문에 setInterval사용전에는 초기화를 해주는 과정이 필요
-  intervalId = setInterval(operateTimer,1000);
+  intervalId = setInterval(operateTimer,10);
   //1-2. stop, lap 버튼 추가 
   startBtn.classList.add('non');
   resetBtn.classList.add('non');
@@ -35,64 +35,64 @@ resetBtn.addEventListener('click',()=>{
   clearInterval(intervalId);
   //3-1. 모든 값 초기화 
   order = 0; 
-  hour = 0, min = 0, sec = 0;
-  laphour = 0, lastmin=0, lastsec=0;
+  min = 0, sec = 0, centi = 0;
+  lapmin = 0, lastsec=0, lastcenti=0;
   max_lap=0, min_lap=100000;
-  textTime.textContent='00:00:00';
+  textTime.textContent='00:00.00';
   lists.innerHTML='';
 })
 
 //4. 랩 버튼 -순간 시간 기록
 lapBtn.addEventListener('click', ()=>{
-  addRecord(hour,min,sec);
+  addRecord(min,sec,centi);
 })
 
-//시간 계산 함수 - 60sec면 min++
+//시간 계산 함수 - 60sec면 sec++
 function operateTimer(){
-  sec++; 
+  centi++; 
+  if(centi > 99){
+    sec++;
+    centi=0;
+  }
   if(sec > 59){
     min++;
     sec=0;
   }
-  if(min > 59){
-    hour++;
-    min=0;
-  }
-  textTime.textContent=`${hour<10?'0'+hour:hour}:${min<10?'0'+min:min}:${sec<10?'0'+sec:sec}`;
+  textTime.textContent=`${min<10?'0'+min:min}:${sec<10?'0'+sec:sec}.${centi<10?'0'+centi:centi}`;
 }
 
 // lap 기록 함수 - 이전값과의 차를 구하기 
-let lasthour = 0, lastmin = 0, lastsec=0;
-let laphour=0, lapmin=0, lapsec=0; 
-function addRecord(nowhour, nowmin, nowsec){
+let lastmin = 0, lastsec = 0, lastcenti=0;
+let lapmin=0, lapsec=0, lapcenti=0; 
+function addRecord(nowmin, nowsec, nowcenti){
   order++;
+  lapcenti=nowcenti-lastcenti;
   lapsec=nowsec-lastsec;
   lapmin=nowmin-lastmin;
-  laphour=nowhour-lasthour;
   //음수값이 나오는 경우 처리 
+  if(lapcenti < 0){
+    lapcenti = 100+nowcenti-lastcenti;
+    lapsec--;
+  }
   if(lapsec < 0){
     lapsec = 60+nowsec-lastsec;
     lapmin--;
   }
-  if(lapmin < 0){
-    lapmin = 60+nowmin-lastmin;
-    laphour--;
-  }
-  createlist(laphour,lapmin,lapsec);
-  lasthour=nowhour;
+  createlist(lapmin,lapsec,lapcenti);
   lastmin=nowmin;
   lastsec=nowsec;
+  lastcenti=nowcenti;
 }
 
 //lap list 생성 함수 
-function createlist(laphour, lapmin, lapsec){
+function createlist(lapmin, lapsec, lapcenti){
   const li = document.createElement('li');
   li.setAttribute('class', 'list');
   li.innerHTML = `
   <span class="list-order">${order} Lap</span>
-  <span class="list-record">${laphour<10?"0"+laphour:laphour}:${lapmin<10?"0"+lapmin:lapmin}.${lapsec<10?"0"+lapsec:lapsec}</span>`;
+  <span class="list-record">${lapmin<10?"0"+lapmin:lapmin}:${lapsec<10?"0"+lapsec:lapsec}.${lapcenti<10?"0"+lapcenti:lapcenti}</span>`;
    //max, min 판별값 받아오기 
-  let result = selectMaxMin(laphour, lapmin, lapsec);
+  let result = selectMaxMin(lapmin, lapsec, lapcenti);
   //클래스 초기화 
   for(let list of lists.children){
     list.classList.remove(result);
@@ -113,8 +113,8 @@ function createlist(laphour, lapmin, lapsec){
 //max, min
 let max_lap = 0; 
 let min_lap = 1000000;
-function selectMaxMin(laphour, lapmin, lapsec){
-  let laptime = laphour*60*60+lapmin*60+lapsec; 
+function selectMaxMin(lapmin, lapsec, lapcenti){
+  let laptime = lapmin*60*100+lapsec*100+lapcenti; 
   //첫번째 요소 예외처리 
   if(max_lap === 0 && min_lap === 1000000){
     max_lap = laptime;
@@ -131,3 +131,8 @@ function selectMaxMin(laphour, lapmin, lapsec){
   }
   return;
 }
+
+
+//1. laptime을 하나의 변수로 합치기 
+//2. 버튼을 키보드로 조작할 수 있도록 해야 합니다.
+//    키보드 L: 랩 L, 리셋 L 키보드 S: 시작 S, 중단 S

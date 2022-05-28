@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stop watch⏰</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer></script>
+</head>
+<body>
+  <div id="stop-watch">
+    <h1>✲Stopwatch✲</h1>
+    <h2 class="txt-time">00:00.00</h2>
+    <button class="btn-reset">Reset(L)</button>
+    <button class="btn-lap">Lap(L)</button>
+    <button class="btn-start">Start(S)</button>
+    <button class="btn-stop">Stop(S)</button>
+    <ul class="lists"></ul>
+  </div>
+</body>
+</html>
+
+<!-- 
+  구현 순서 
+  1. start, stop 기능
+  2. 시간 포멧팅 
+  3. laps 기능
+  4. 키보드 조작 기능? - enter누르면 중단
+  5. 최단, 최장 기록 강조 기능
+
+  setInterval() - 주기적으로 인자를 살행하는 함수
+  clearInterval() - 현재 진행되고 있는 함수의 실행을 막는데 사용
+  setTimeout() - 일정시간이 지난후 한번 실행
+ -->

@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&display=swap');
+
+/* reset */
+button{
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+ul{
+  padding:0;
+  list-style: none;
+}
+
+/* style */
+*{
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #d59999;
+  color:#806A6A;
+}
+
+#stop-watch{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  height: 600px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f8f1f1;
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+h1{
+  font-size: 25px;
+  font-family: 'Grape Nuts', cursive;
+}
+
+.txt-time{
+  margin: 20px auto;
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  border-radius: 50%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+button{
+  margin: 0 10px;
+  padding: 8px 15px;
+  width: 100px;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  transition: all ease 100ms;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover{
+  opacity: 0.8;
+}
+
+.btn-reset{
+  color:rgb(243, 133, 93);
+}
+
+.btn-reset.non{
+  display: none;
+}
+
+.btn-start{
+  color: rgb(4, 163, 4);
+}
+
+.btn-start.non{
+  display: none;
+}
+
+.btn-lap{
+  color:rgb(95, 95, 247);
+  display: none;
+}
+
+.btn-lap.on{
+  display: inline-block;
+}
+
+.btn-stop{
+  color: rgb(248, 88, 88);
+  display: none;
+}
+
+.btn-stop.on{
+  display: inline-block;
+}
+
+.lists{
+  overflow-y: scroll;
+  height: 200px;
+}
+
+.list{
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color:#a78b8b;
+  border: 2px solid #d8d2d2;
+  border-radius: 20px;
+}
+
+.list.max{
+  color:rgb(211, 139, 139);
+}
+
+.list.min{
+  color:rgb(106, 170, 106);
+}
+
+/* scroll */
+.lists::-webkit-scrollbar{
+  width:4px;
+}
+.lists::-webkit-scrollbar-thumb{
+  background-color: rgb(190, 177, 241, 0.3) ;
+  border-radius: 10px;
+}
+.lists::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}

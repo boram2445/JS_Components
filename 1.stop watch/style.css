@@ -53,7 +53,7 @@ h1{
 button{
   margin: 0 10px;
   padding: 8px 15px;
-  width: 80px;
+  width: 100px;
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   transition: all ease 100ms;
